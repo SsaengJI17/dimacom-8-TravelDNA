@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trinity Airways - Travel DNA Test</title>
+
+    <meta property="og:title" content="나의 여행 DNA는 무슨 색일까?">
+    <meta property="og:description" content="10가지 질문으로 찾는 나만의 여행 정체성">
+    <meta property="og:type" content="website">
+
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
+    <style>
+        :root {
+            --trinity-navy: #002c5f;
+            --action-blue: #0066cc;
+            --bg-light: #f5f5f7;
+            --white: #ffffff;
+            --text-ink: #1d1d1f;
+            --text-muted: #86868b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-light);
+            color: var(--text-ink);
+        }
+
+        nav {
+            height: 48px;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 5%;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-left {
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            flex: 1;
+        }
+
+        .nav-center {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        .nav-right {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 12px;
+            text-align: right;
+            flex: 1;
+        }
+
+        .nav-logo {
+            height: 24px;
+            width: auto;
+        }
+
+        .test-container {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 0 20px;
+            text-align: center;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .intro-cover {
+            width: 100%;
+            max-width: 430px;
+            display: block;
+            margin: 0 auto 26px;
+            border-radius: 28px;
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        .hero-title {
+            font-size: 36px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 24px;
+            color: var(--trinity-navy);
+        }
+
+        .intro-desc {
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            line-height: 1.55;
+        }
+
+        .question-text {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 40px;
+            word-break: keep-all;
+            line-height: 1.4;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #d2d2d7;
+            border-radius: 3px;
+            margin-bottom: 50px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--action-blue);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .answer-btn {
+            width: 100%;
+            background: var(--white);
+            border: 1px solid #d2d2d7;
+            padding: 18px 24px;
+            border-radius: 14px;
+            font-size: 17px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+            margin-bottom: 12px;
+            font-family: inherit;
+            outline: none;
+        }
+
+        .answer-btn:hover {
+            border-color: var(--action-blue);
+            background: #f0f7ff;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #d2d2d7;
+            border-top-color: var(--action-blue);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 40px auto;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        #capture-area {
+            background: var(--white);
+            border-radius: 28px;
+            padding: 40px 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .result-logo {
+            height: 60px;
+            margin-bottom: 20px;
+        }
+
+        .result-visual {
+            width: 100%;
+            max-width: 400px;
+            height: auto;
+            display: block;
+            margin: 10px auto 25px auto;
+            border-radius: 20px;
+        }
+
+        .dna-tag {
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 20px;
+            background: var(--action-blue);
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .recommend-box {
+            background: var(--bg-light);
+            border-radius: 18px;
+            padding: 20px;
+            margin-top: 30px;
+            text-align: left;
+            border: 1px solid #e0e0e0;
+        }
+
+        .recommend-box p {
+            line-height: 1.6;
+        }
+
+        .action-group {
+            display: flex;
+            gap: 10px;
+            flex-direction: column;
+        }
+
+        .btn-main {
+            background: var(--trinity-navy);
+            color: #fff;
+            padding: 16px;
+            border-radius: 14px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        .btn-share {
+            background: #f0f0f2;
+            color: var(--text-ink);
+            padding: 16px;
+            border-radius: 14px;
+            font-weight: 600;
+            font-size: 15px;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        @media (max-width: 480px) {
+            .test-container {
+                margin: 24px auto;
+            }
+
+            .hero-title {
+                font-size: 30px;
+            }
+
+            .question-text {
+                font-size: 21px;
+            }
+
+            #capture-area {
+                padding: 28px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <div class="nav-left">Trinity Airways</div>
+        <div class="nav-center">
+            <svg class="nav-logo" viewBox="0 0 273.2 274.6" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="grad_top_final" x1="135.9" y1="803.4" x2="135.9" y2="852.4"
+                        gradientTransform="translate(0 -803.4)" gradientUnits="userSpaceOnUse">
+                        <stop offset="0" stop-color="#d0d0d4" />
+                        <stop offset="1" stop-color="#dadada" />
+                    </linearGradient>
+                    <linearGradient id="grad_left_final" x1="65.2" y1="852.8" x2="65.2" y2="1078"
+                        gradientTransform="translate(0 -803.4)" gradientUnits="userSpaceOnUse">
+                        <stop offset="0" stop-color="#c5978b" />
+                        <stop offset="1" stop-color="#e2bab1" />
+                    </linearGradient>
+                    <linearGradient id="grad_right_final" x1="208" y1="852.8" x2="208" y2="1078"
+                        gradientTransform="translate(0 -803.4)" gradientUnits="userSpaceOnUse">
+                        <stop offset="0" stop-color="#c7b9a0" />
+                        <stop offset="1" stop-color="#eedeb8" />
+                    </linearGradient>
+                </defs>
+                <path fill="url(#grad_top_final)" d="M23.9,0l90,43.9c13.9,6.8,30.1,6.8,43.9,0L247.9,0H23.9Z" />
+                <path fill="url(#grad_left_final)" d="M0,49.4l63.7,8.1c26.4,3.4,47,24.6,49.7,51.1l16.9,166L0,49.4Z" />
+                <path fill="url(#grad_right_final)"
+                    d="M273.2,49.4l-63.7,8.1c-26.4,3.4-47,24.6-49.7,51.1l-16.9,166L273.2,49.4Z" />
+            </svg>
+        </div>
+        <div class="nav-right">Travel DNA Test</div>
+    </nav>
+
+    <div class="test-container">
+		<section id="intro">
+			<h1 class="hero-title">당신의 여행 DNA는<br>무슨 색인가요?</h1>
+
+			<img src="travel_vibes_and_suitcase_dreams.png"
+				 class="intro-cover"
+				 alt="여행 DNA 테스트 표지">
+
+			<p class="intro-desc">당신의 비행과 숙박 취향을 분석합니다.</p>
+
+			<button class="btn-main"
+					style="width:100%"
+					onclick="start()">
+				테스트 시작하기
+			</button>
+		</section>
+        <section id="quiz" class="hidden">
+            <div class="progress-bar">
+                <div class="progress-fill" id="bar"></div>
+            </div>
+            <h2 class="question-text" id="q-text"></h2>
+            <div id="a-list"></div>
+        </section>
+
+        <section id="loading" class="hidden">
+            <div class="loading-spinner"></div>
+            <h2 class="hero-title" style="margin-top:20px;">결과 분석 중...</h2>
+        </section>
+
+        <section id="result" class="hidden">
+            <div id="capture-area">
+                <svg class="result-logo" viewBox="0 0 273.2 274.6">
+                    <defs>
+                        <linearGradient id="result_grad_top_final" x1="135.9" y1="803.4" x2="135.9" y2="852.4"
+                            gradientTransform="translate(0 -803.4)" gradientUnits="userSpaceOnUse">
+                            <stop offset="0" stop-color="#d0d0d4" />
+                            <stop offset="1" stop-color="#dadada" />
+                        </linearGradient>
+                        <linearGradient id="result_grad_left_final" x1="65.2" y1="852.8" x2="65.2" y2="1078"
+                            gradientTransform="translate(0 -803.4)" gradientUnits="userSpaceOnUse">
+                            <stop offset="0" stop-color="#c5978b" />
+                            <stop offset="1" stop-color="#e2bab1" />
+                        </linearGradient>
+                        <linearGradient id="result_grad_right_final" x1="208" y1="852.8" x2="208" y2="1078"
+                            gradientTransform="translate(0 -803.4)" gradientUnits="userSpaceOnUse">
+                            <stop offset="0" stop-color="#c7b9a0" />
+                            <stop offset="1" stop-color="#eedeb8" />
+                        </linearGradient>
+                    </defs>
+                    <path fill="url(#result_grad_top_final)" d="M23.9,0l90,43.9c13.9,6.8,30.1,6.8,43.9,0L247.9,0H23.9Z" />
+                    <path fill="url(#result_grad_left_final)"
+                        d="M0,49.4l63.7,8.1c26.4,3.4,47,24.6,49.7,51.1l16.9,166L0,49.4Z" />
+                    <path fill="url(#result_grad_right_final)"
+                        d="M273.2,49.4l-63.7,8.1c-26.4,3.4-47,24.6-49.7,51.1l-16.9,166L273.2,49.4Z" />
+                </svg>
+                <br>
+                <img src="demo_visual.png" id="r-visual" class="result-visual" alt="Trinity Travel DNA">
+
+                <span class="dna-tag" id="r-tag"></span>
+                <h1 id="r-title" style="font-size:30px; margin-bottom:15px;"></h1>
+                <p id="r-desc" style="font-size:16px; line-height:1.6; color:var(--text-ink);"></p>
+
+                <div class="recommend-box">
+                    <p style="font-size:13px; color:var(--text-muted); margin-bottom:10px;">TRINITY RECOMMENDATION</p>
+                    <p>✈️ <strong>Flight:</strong> <span id="r-flight"></span></p>
+                    <p>🏨 <strong>Stay:</strong> <span id="r-stay"></span></p>
+                </div>
+                <p style="margin-top:20px; font-size:12px; color:#d2d2d7;">© Trinity Airways & Sono Resorts</p>
+            </div>
+
+            <div class="action-group">
+                <button class="btn-share" onclick="saveImage()">
+                    ⬇️ 결과 카드 이미지 저장하기
+                </button>
+
+                <button class="btn-main" onclick="shareDNA()" style="width: 100%;">
+                    🔗 SNS에 공유하기
+                </button>
+            </div>
+            <p style="margin-top:25px; font-size:13px; color:var(--text-muted); cursor:pointer;"
+                onclick="location.reload()">테스트 다시하기</p>
+        </section>
+    </div>
+
+    <script>
+        const questions = [
+            { q: "오랜만에 찾은 공항, 당신의 첫 코스는?", a: [{ t: "라운지에서 샴페인 마시며 분위기 내기", ty: "E" }, { t: "조용한 구석에서 넷플릭스 보기", ty: "R" }, { t: "면세점 신제품 구경하고 장비 체크", ty: "X" }] },
+            { q: "비행기 안에서 가장 선호하는 활동은?", a: [{ t: "기내 면세점 책자 꼼꼼히 보기", ty: "E" }, { t: "안대 쓰고 푹 자며 컨디션 관리", ty: "R" }, { t: "좌석 모니터로 실시간 항로 확인", ty: "X" }] },
+            { q: "호텔 객실에 들어서자마자 하는 일은?", a: [{ t: "조명을 맞추고 예쁜 객실 사진 찍기", ty: "E" }, { t: "침대에 대자로 누워 푹 쉬기", ty: "R" }, { t: "콘센트 위치와 시설 가이드 정독", ty: "X" }] },
+            { q: "여행지 식당을 고르는 기준은?", a: [{ t: "플레이팅과 인테리어가 예쁜 곳", ty: "E" }, { t: "호텔 내 조용하고 격식 있는 식당", ty: "R" }, { t: "현지인들 사이에 섞여 먹는 노포 맛집", ty: "X" }] },
+            { q: "낯선 곳에서 계획에 없던 비를 만난다면?", a: [{ t: "비 오는 거리의 운치를 즐기며 산책", ty: "E" }, { t: "호텔 스파나 라운지에서 여유 즐기기", ty: "R" }, { t: "방수 자켓을 입고 원래 계획 강행", ty: "X" }] },
+            { q: "당신에게 여행의 기념품이란?", a: [{ t: "그곳의 분위기가 담긴 예술 소품", ty: "E" }, { t: "나를 위한 고급 코스메틱이나 와인", ty: "R" }, { t: "다음 탐험에 유용한 아웃도어 장비", ty: "X" }] },
+            { q: "이동 수단을 선택할 때의 기준은?", a: [{ t: "풍경을 볼 수 있는 낭만적인 트램", ty: "E" }, { t: "가장 빠르고 편안한 프라이빗 택시", ty: "R" }, { t: "현지 문화를 느끼는 로컬 대중교통", ty: "X" }] },
+            { q: "여행 중 가장 행복한 시간은?", a: [{ t: "노을을 배경으로 인생 사진을 찍을 때", ty: "E" }, { t: "아무 생각 없이 물멍/산멍 할 때", ty: "R" }, { t: "새로운 길을 찾아내어 정복할 때", ty: "X" }] },
+            { q: "캐리어 짐 싸기 스타일은?", a: [{ t: "사진을 위해 옷을 여러 벌 챙긴다", ty: "E" }, { t: "최대한 가볍고 편한 옷 위주로 싼다", ty: "R" }, { t: "비상약과 각종 장비를 철저히 챙긴다", ty: "X" }] },
+            { q: "다음 여행을 상상할 때 당신은?", a: [{ t: "그곳에서 입을 예쁜 옷을 고른다", ty: "E" }, { t: "아무것도 안 하고 쉴 생각에 설렌다", ty: "R" }, { t: "새로운 노선과 루트를 검색한다", ty: "X" }] }
+        ];
+
+        let current = 0;
+        let scores = { E: 0, R: 0, X: 0 };
+
+        function start() {
+            document.getElementById('intro').classList.add('hidden');
+            document.getElementById('quiz').classList.remove('hidden');
+            show();
+        }
+
+        function show() {
+            const q = questions[current];
+            document.getElementById('q-text').innerText = q.q;
+            const list = document.getElementById('a-list');
+            list.innerHTML = '';
+
+            q.a.forEach(ans => {
+                const b = document.createElement('button');
+                b.className = 'answer-btn';
+                b.innerText = ans.t;
+                b.onclick = () => {
+                    scores[ans.ty]++;
+                    current++;
+                    if (current < questions.length) show();
+                    else analyze();
+                };
+                list.appendChild(b);
+            });
+
+            document.getElementById('bar').style.width = ((current + 1) / questions.length * 100) + '%';
+        }
+
+        function analyze() {
+            document.getElementById('quiz').classList.add('hidden');
+            document.getElementById('loading').classList.remove('hidden');
+            setTimeout(result, 1800);
+        }
+
+        function result() {
+            document.getElementById('loading').classList.add('hidden');
+            document.getElementById('result').classList.remove('hidden');
+
+            const max = Object.keys(scores).reduce((a, b) => scores[a] >= scores[b] ? a : b);
+
+            const data = {
+                E: {
+                    tag: "감성 유럽형",
+                    title: "로맨틱 아티스트",
+                    desc: "도시의 질감과 색채에 민감한 당신. 여행의 매 순간을 예술 작품처럼 남기고 싶어 하는군요.",
+                    f: "티웨이항공 파리 직항",
+                    s: "호텔 담 데 자르 (파리)",
+                    img: "bunny_sketching_at_a_paris_café.png"
+                },
+                R: {
+                    tag: "럭셔리 휴양형",
+                    title: "평온한 휴식가",
+                    desc: "진정한 쉼을 아는 당신. 최고의 서비스와 안락한 공간에서 에너지를 채울 때 가장 행복을 느낍니다.",
+                    f: "에어프레미아 호놀룰루 노선",
+                    s: "와이키키 리조트 호텔 (하와이)",
+                    img: "tropical_bunny_s_beachside_retreat.png"
+                },
+                X: {
+                    tag: "스마트 탐험형",
+                    title: "철저한 설계자",
+                    desc: "모든 노선과 시간을 최적화하는 당신은 전문가! 새로운 곳을 발견하고 정복하는 데서 희열을 얻습니다.",
+                    f: "티웨이 & 이스타 코드쉐어 노선",
+                    s: "소노벨 하이퐁 (베트남)",
+                    img: "explorer_bunny_on_a_city_adventure.png"
+                }
+            };
+
+            const res = data[max];
+            document.getElementById('r-tag').innerText = res.tag;
+            document.getElementById('r-title').innerText = res.title;
+            document.getElementById('r-desc').innerText = res.desc;
+            document.getElementById('r-flight').innerText = res.f;
+            document.getElementById('r-stay').innerText = res.s;
+
+            const visual = document.getElementById('r-visual');
+            visual.src = res.img;
+            visual.alt = `${res.tag} 결과 이미지`;
+        }
+
+        function saveImage() {
+            const area = document.getElementById('capture-area');
+
+            html2canvas(area, {
+                backgroundColor: '#ffffff',
+                scale: 2,
+                useCORS: true
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'Trinity_Travel_DNA.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            });
+        }
+
+        async function copyLink() {
+            const url = window.location.href;
+
+            try {
+                if (navigator.clipboard && window.isSecureContext) {
+                    await navigator.clipboard.writeText(url);
+                } else {
+                    const input = document.createElement('input');
+                    input.value = url;
+                    document.body.appendChild(input);
+                    input.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(input);
+                }
+
+                alert('링크가 복사되었습니다!');
+            } catch (err) {
+                alert('링크 복사에 실패했습니다. 주소창의 링크를 직접 복사해주세요.');
+            }
+        }
+
+        async function shareDNA() {
+            const shareData = {
+                title: '트리니티 항공 - Travel DNA Test',
+                text: `나의 여행 DNA는 [${document.getElementById('r-tag').innerText}]! 당신의 결과도 확인해보세요.`,
+                url: window.location.href
+            };
+
+            try {
+                if (navigator.share) {
+                    await navigator.share(shareData);
+                } else {
+                    await copyLink();
+                }
+            } catch (err) {
+                console.log('공유 취소 또는 에러:', err);
+            }
+        }
+    </script>
+</body>
+
+</html>
